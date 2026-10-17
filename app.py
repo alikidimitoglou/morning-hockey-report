@@ -87,7 +87,6 @@ with st.sidebar:
                     f"{home_name}  {home_score} vs. "
                     f"{away_name}  {away_score}"
                     )
-                st.caption(f"Game status: {state}")
                 
                 if state in ("OFF", "FINAL"):
                     st.caption("Game status: Final")
