@@ -11,9 +11,9 @@ st.set_page_config(
     menu_items={
         'Report a bug': 'https://github.com/alikidimitoglou/morning-hockey-report/issues',
         'About': '''
-        Hi! My name's Aliki, and I created this app to report on NHL games that I couldn't watch live.
+        Hi! My name's Aliki, and I'm a hockey lover and an even bigger data nerd, so I thought, *why not combine the two?* 
         
-        I wanted an automated email send every morning, like a current-events newsletter, that included stats, highlights, and news. So I thought I'd make one.
+        I created this app to report on NHL games that I couldn't watch live. I wanted an automated email send every morning, like a current-events newsletter, that included stats, highlights, and news. So I thought I'd make one.
         
         Thanks for checking out my project! Hope you enjoy.'''
     }
