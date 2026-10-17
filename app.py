@@ -120,9 +120,9 @@ with left:
 with right:
     selected = st.feedback("stars")
     if selected is None:
-        st.caption("Everybody loves feedback!")
+        st.caption("Everybody loves feedback! :speech_balloon:")
     elif selected == 4:
-        st.caption("Thank you for your input! ':)'")
+        st.caption("Thank you for your input!")
     else:
         st.caption(
             "Thank you for your input! Please click **Report a Bug** in the top-right menu to share any comments, concerns, or issues.")
