@@ -21,7 +21,7 @@ st.set_page_config(
 
 st.title("The Final Whistle")
 st.markdown(''':orange[Welcome to the show!]''')
-st.caption("A recap of yesterday's NHL scores and game highlights.")
+st.caption("A recap of yesterday's NHL scores, game highlights, and the latest news and standings.")
 
 # team filter #
 teamoptions = st.multiselect(
