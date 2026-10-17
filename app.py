@@ -109,7 +109,7 @@ with st.sidebar:
 st.divider()
 
 # little footer note and feedback #
-left, right = st.columns(2, vertical_alignment="bottom")
+left, middle, right = st.columns(3, vertical_alignment="bottom")
 
 with left:
     st.caption(
@@ -121,12 +121,11 @@ with right:
     selected = st.feedback("stars")
 
     if selected is None:
-        pass  # The user hasn't submitted feedback yet.
+        pass
     elif selected == 4:
         st.success("Thank you for your input!")
     else:
         st.markdown(
             "Thank you for your input! Please click **Report a Bug** "
             "in the top-right menu to leave any comments, concerns, "
-            "or issues."
-        )
+            "or issues.")
