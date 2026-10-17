@@ -122,9 +122,9 @@ with right:
     if selected is None:
         st.caption("Everybody loves feedback!")
     elif selected == 4:
-        st.success("Thank you for your input!")
+        st.caption("Thank you for your input! ':)'")
     else:
-        st.markdown(
+        st.caption(
             "Thank you for your input! Please click **Report a Bug** "
             "in the top-right menu to share any comments, concerns, "
             "or issues.")
