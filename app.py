@@ -9,8 +9,8 @@ st.set_page_config(
 )
 
 st.title("The Final Whistle")
+st.markdown(''':orange[Welcome to the show!]''')
 st.caption("A recap of yesterday's NHL scores and game highlights.")
-st.markdown(''':orange[Welcome to the show].''')
 
 game_date = st.date_input(
     "Choose a game date",
@@ -36,6 +36,7 @@ try:
         st.info("No games found for this date.")
 
     for game in games:
+        st.sidebar.[game]
         away = game.get("awayTeam", {})
         home = game.get("homeTeam", {})
         game_id = game.get("id")
