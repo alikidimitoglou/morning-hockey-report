@@ -79,7 +79,13 @@ with st.sidebar:
                     f"{home_score}  {home_name}"
                 )
                 st.caption(f"Game status: {state}")
-                st.caption(f"Puck drop (UTC): {utc_starttime}")
+                dt = datetime.fromisoformat(
+                    utc_starttime,replace("Z", "+00:00")
+                )
+                starttime = dt.astimezone(
+                    ZoneInfo("America/New_York")
+                ).strftime("%-I:%M %p")
+                st.caption(f"Puck drop (UTC): {starttime}")
     
                 if game_id:
                     st.link_button(
