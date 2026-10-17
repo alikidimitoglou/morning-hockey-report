@@ -89,7 +89,7 @@ with st.sidebar:
                     )
                 
                 if state in ("OFF", "FINAL"):
-                    st.caption("Game status: Final")
+                    st.caption("Game status: FINAL")
                 else:
                     st.caption(f"Game status: {state}")
                 if state != "OFF" and state != "FINAL" and state!= "FUT":
