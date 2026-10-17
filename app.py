@@ -1,16 +1,15 @@
-
 import streamlit as st
 import requests
 from datetime import date, timedelta
 
 st.set_page_config(
-    page_title="Morning Hockey Report",
-    page_icon="🏒",
+    page_title="Final Whistle",
+    page_icon="🥅",
     layout="wide",
 )
 
-st.title("🏒 The Morning Hockey Report")
-st.caption("Yesterday's NHL scores and game recaps.")
+st.title("The Final Whistle")
+st.caption("A recap of yesterday's NHL scores and game highlights.")
 
 game_date = st.date_input(
     "Choose a game date",
