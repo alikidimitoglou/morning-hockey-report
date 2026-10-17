@@ -81,7 +81,7 @@ with st.sidebar:
                 )
                 st.caption(f"Game status: {state}")
                 dt = datetime.fromisoformat(
-                    utc_starttime,replace("Z", "+00:00")
+                    utc_starttime.replace("Z", "+00:00")
                 )
                 starttime = dt.astimezone(
                     ZoneInfo("America/New_York")
