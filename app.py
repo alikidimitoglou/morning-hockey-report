@@ -100,7 +100,7 @@ with st.sidebar:
                 starttime = dt.astimezone(
                     ZoneInfo("America/New_York")
                 ).strftime("%-I:%M %p")
-                st.caption(f"Puck drop **{starttime}** EST")
+                st.caption(f"Puck drop @ **{starttime}** EST")
         
                 if game_id:
                     st.link_button(
