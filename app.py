@@ -15,11 +15,11 @@ st.set_page_config(
         
         Naturally, I thought, *why not combine what I love, and just make the darn thing myself?* 
 
-        So with a bit of determination and some help from the Streamlit and GitHub documentation, now I (and you!) have an up-to-date web app with all the hockey info you could ever want, plus an automated email sent out each morning.
+        So with a bit of determination and some help from the Streamlit and GitHub documentation, now I (and you!) have an up-to-date web app with all the hockey info you could ever want, plus an automated email sent out each morning while you drink your coffe.
                 
         Thanks for checking out my project! Hope you enjoy.
         
-        &mdeah;\ Aliki :tulip:'''
+        &mdash;\ Aliki :four_leaf_clover:'''
     }
 )
 
