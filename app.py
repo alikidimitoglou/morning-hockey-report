@@ -36,6 +36,8 @@ teamoptions = st.multiselect(
 )
 
 # my version of inky! #
+
+
 st.html("""
 <style>
 #hockey-puck, #hockey-goal {
@@ -44,46 +46,125 @@ st.html("""
     font-size: 76px;
     line-height: 1;
     user-select: none;
-    will-change: transform;
+    will-change: transform, left, top;
 }
 
 #hockey-puck {
     top: 25%;
     left: 5%;
     cursor: pointer;
-    animation: hockey-float 8s ease-in-out infinite alternate;
+    animation: puck-float 8s ease-in-out infinite alternate;
 }
 
 #hockey-goal {
     top: 60%;
     left: 70%;
+    pointer-events: none;
     animation: goal-float 10s ease-in-out infinite alternate;
 }
 
-@keyframes hockey-float {
-    0%   { transform: translate(0, 0) rotate(-8deg); }
-    25%  { transform: translate(20vw, 10vh) rotate(5deg); }
-    50%  { transform: translate(45vw, -5vh) rotate(-5deg); }
-    75%  { transform: translate(65vw, 12vh) rotate(8deg); }
-    100% { transform: translate(75vw, -8vh) rotate(-5deg); }
+@keyframes puck-float {
+    0%   { transform: translate(0,0) rotate(-8deg); }
+    25%  { transform: translate(12vw,8vh) rotate(5deg); }
+    50%  { transform: translate(28vw,-5vh) rotate(-5deg); }
+    75%  { transform: translate(42vw,10vh) rotate(8deg); }
+    100% { transform: translate(55vw,-5vh) rotate(-5deg); }
 }
 
 @keyframes goal-float {
-    0%   { transform: translate(0, 0) rotate(0deg); }
-    30%  { transform: translate(-15vw, -8vh) rotate(5deg); }
-    60%  { transform: translate(-35vw, 5vh) rotate(-5deg); }
-    100% { transform: translate(-55vw, -10vh) rotate(3deg); }
+    0%   { transform: translate(0,0) rotate(0); }
+    50%  { transform: translate(-10vw,5vh) rotate(4deg); }
+    100% { transform: translate(-25vw,-5vh) rotate(-4deg); }
+}
+
+.hockey-confetti {
+    position: fixed;
+    z-index: 1000000;
+    pointer-events: none;
+    font-size: 26px;
+    animation: celebrate 3s ease-out forwards;
+}
+
+@keyframes celebrate {
+    0% {
+        opacity: 1;
+        transform: translate(0,0) rotate(0) scale(.5);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--dx),var(--dy))
+                   rotate(540deg) scale(1);
+    }
 }
 </style>
 
-<div id="hockey-puck" onclick="
-    this.style.animationPlayState='paused';
-    this.textContent='🏒';
-    alert('GOAL! 🥅🎉');
-">🏒</div>
-
+<div id="hockey-puck">🏒</div>
 <div id="hockey-goal">🥅</div>
+
+<script>
+(() => {
+    const puck = document.getElementById("hockey-puck");
+    const goal = document.getElementById("hockey-goal");
+
+    if (!puck || !goal || puck.dataset.ready) return;
+    puck.dataset.ready = "1";
+
+    puck.addEventListener("click", () => {
+        if (puck.dataset.shooting) return;
+        puck.dataset.shooting = "1";
+
+        // Stop the floating animations for the shot.
+        puck.style.animation = "none";
+        goal.style.animation = "none";
+
+        const p = puck.getBoundingClientRect();
+        const g = goal.getBoundingClientRect();
+
+        const dx = g.left - p.left;
+        const dy = g.top - p.top;
+
+        puck.animate([
+            { transform: "translate(0,0) rotate(0deg) scale(1)" },
+            {
+                transform: `translate(${dx}px,${dy}px)
+                            rotate(540deg) scale(.35)`
+            }
+        ], {
+            duration: 1200,
+            easing: "cubic-bezier(.2,.7,.3,1)",
+            fill: "forwards"
+        }).onfinish = () => {
+            const r = goal.getBoundingClientRect();
+            const emojis = ["🎉","✨","⭐","🏆","🎊"];
+
+            for (let i = 0; i < 24; i++) {
+                const bit = document.createElement("span");
+                bit.className = "hockey-confetti";
+                bit.textContent =
+                    emojis[Math.floor(Math.random()*emojis.length)];
+
+                bit.style.left = (r.left+r.width/2) + "px";
+                bit.style.top = (r.top+r.height/2) + "px";
+                bit.style.setProperty("--dx",
+                    (Math.random()*300-150)+"px");
+                bit.style.setProperty("--dy",
+                    (Math.random()*260-130)+"px");
+
+                document.body.appendChild(bit);
+                setTimeout(() => bit.remove(), 3200);
+            }
+
+            puck.remove();
+            goal.remove();
+        };
+    });
+})();
+</script>
 """)
+
 
 # sidebar for scores #
 with st.sidebar:
