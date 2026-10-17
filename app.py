@@ -56,19 +56,41 @@ html = """
     overflow: hidden;
   }
 
-  .emoji {
-    position: absolute;
-    font-size: 40px;
-    cursor: pointer;
-    user-select: none;
-    touch-action: manipulation;
-    filter: drop-shadow(0 2px 3px #0002);
-    will-change: left, top, transform;
-    transition:
-        left 2.2s cubic-bezier(0.22, 1, 0.36, 1),
-        top 2.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+.emoji {
+  position: absolute;
+  font-size: 72px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
 
+.puck {
+  animation: drift 8s ease-in-out infinite alternate;
+}
+
+.goal {
+  animation: drift 11s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(-35px, 10px, 0) rotate(-8deg);
+  }
+  25% {
+    transform: translate3d(45px, -35px, 0) rotate(5deg);
+  }
+  50% {
+    transform: translate3d(70px, 20px, 0) rotate(10deg);
+  }
+  75% {
+    transform: translate3d(-20px, 45px, 0) rotate(-5deg);
+  }
+  100% {
+    transform: translate3d(-35px, 10px, 0) rotate(-8deg);
+  }
+}
   .puck {
     z-index: 2;
     animation: float 3s ease-in-out infinite alternate;
@@ -152,23 +174,6 @@ function spawn() {
   puck.style.top = py + "px";
 
   arena.append(goal, puck);
-
-  let moves = 0;
-  const wander = setInterval(() => {
-    if (!puck.isConnected || moves++ > 8) {
-      clearInterval(wander);
-      return;
-    }
-
-    const maxX = Math.max(0, arena.clientWidth - 85);
-    const maxY = Math.max(0, arena.clientHeight - 85);
-    
-    puck.style.left = Math.random() * maxX + "px";
-    puck.style.left = Math.random() * maxY + "px";
-    goal.style.left = Math.max(
-      0, Math.min(maxX, gx + Math.random() * 60 - 30)
-    ) + "px";
-  }, 2400);
 
   puck.addEventListener("click", () => {
     if (!puck.isConnected) return;
