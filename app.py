@@ -83,6 +83,7 @@ with st.sidebar:
                 away_score = away.get("score", "—")
                 home_score = home.get("score", "—")
     
+            if state != "FUT":
             with st.container(border=True):
                 st.subheader(
                     f"{home_name}  {home_score} – "
