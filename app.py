@@ -107,4 +107,14 @@ with st.sidebar:
         )
 
 st.divider()
-st.caption("Your daily morning hockey recap + live stats and standings · Powered by NHL data")
+
+# little footer note and feedback #
+left, middle = st.columns(2, vertical_alignment="bottom")
+left.caption("Your daily morning hockey recap + live stats and standings · Powered by NHL data")
+sentiment_mapping = ["one", "two", "three", "four", "five"]
+selected = st.feedback("stars")
+if selected is not "five":
+    st.markdown(f"Thank you for your input! Please click Report a Bug in the top-right menu to leave any comments, concerns, or issues.")
+else:
+    st.markdown(f"Thank you for your input!")
+middle.sentiment_mapping
