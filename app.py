@@ -58,22 +58,28 @@ html = """
 
   .emoji {
     position: absolute;
-    font-size: 30px;
+    font-size: 40px;
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
     filter: drop-shadow(0 2px 3px #0002);
-    animation: bob 2s ease-in-out infinite alternate;
-    will-change: transform, left, top;
-  }
+    will-change: left, top, transform;
+    transition:
+        left 2.2s cubic-bezier(0.22, 1, 0.36, 1),
+        top 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
 
   .puck {
     z-index: 2;
+    animation: float 3s ease-in-out infinite alternate;
+
   }
 
   .goal {
     z-index: 1;
     animation-duration: 2.7s;
+    animation: float 4s ease-in-out infinite alternate;
+
   }
 
   @keyframes bob {
@@ -147,19 +153,22 @@ function spawn() {
 
   arena.append(goal, puck);
 
-  // Give the emojis a little wandering movement.
   let moves = 0;
   const wander = setInterval(() => {
     if (!puck.isConnected || moves++ > 8) {
       clearInterval(wander);
       return;
     }
-    puck.style.left = rand(Math.max(1, w - 55)) + "px";
-    puck.style.top = rand(Math.max(1, h - 55)) + "px";
+
+    const maxX = Math.max(0, arena.clientWidth - 85);
+    const maxY = Math.max(0, arena.clientHeight - 85);
+    
+    puck.style.left = Math.random() * maxX + "px";
+    puck.style.left = Math.random() * maxY + "px";
     goal.style.left = Math.max(
-      0, Math.min(w - 55, gx + rand(50) - 25)
+      0, Math.min(maxX, gx + Math.random() * 60 - 30)
     ) + "px";
-  }, 700);
+  }, 2400);
 
   puck.addEventListener("click", () => {
     if (!puck.isConnected) return;
@@ -226,7 +235,7 @@ setTimeout(spawn, 2000);
 </html>
 """
 
-components.html(html, height=420, scrolling=False)
+components.html(html, height=650, scrolling=False)
 
 # sidebar for scores #
 with st.sidebar:
