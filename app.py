@@ -9,7 +9,7 @@ st.set_page_config(
     layout="centered",
     menu_items={
         'Submit an issue/bug to my GitHub': 'https://github.com/alikidimitoglou/morning-hockey-report/issues'
-        'About': "#Test header."\
+        'About': "#Test header."
     }
 )
 
