@@ -37,15 +37,52 @@ teamoptions = st.multiselect(
 
 # my version of inky! #
 st.html("""
-<div id="hockey-test" style="
+<style>
+#hockey-puck, #hockey-goal {
     position: fixed;
-    top: 100px;
-    right: 40px;
     z-index: 999999;
-    font-size: 70px;
-">
-    🏒🥅
-</div>
+    font-size: 76px;
+    line-height: 1;
+    user-select: none;
+    will-change: transform;
+}
+
+#hockey-puck {
+    top: 25%;
+    left: 5%;
+    cursor: pointer;
+    animation: hockey-float 8s ease-in-out infinite alternate;
+}
+
+#hockey-goal {
+    top: 60%;
+    left: 70%;
+    animation: goal-float 10s ease-in-out infinite alternate;
+}
+
+@keyframes hockey-float {
+    0%   { transform: translate(0, 0) rotate(-8deg); }
+    25%  { transform: translate(20vw, 10vh) rotate(5deg); }
+    50%  { transform: translate(45vw, -5vh) rotate(-5deg); }
+    75%  { transform: translate(65vw, 12vh) rotate(8deg); }
+    100% { transform: translate(75vw, -8vh) rotate(-5deg); }
+}
+
+@keyframes goal-float {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    30%  { transform: translate(-15vw, -8vh) rotate(5deg); }
+    60%  { transform: translate(-35vw, 5vh) rotate(-5deg); }
+    100% { transform: translate(-55vw, -10vh) rotate(3deg); }
+}
+</style>
+
+<div id="hockey-puck" onclick="
+    this.style.animationPlayState='paused';
+    this.textContent='🏒';
+    alert('GOAL! 🥅🎉');
+">🏒</div>
+
+<div id="hockey-goal">🥅</div>
 """)
 
 # sidebar for scores #
