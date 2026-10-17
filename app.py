@@ -79,7 +79,7 @@ with st.sidebar:
                 "default", home.get("abbrev", "Home")
             )
 
-            IF state != "FUT":
+            if state != "FUT":
                 away_score = away.get("score", "—")
                 home_score = home.get("score", "—")
     
