@@ -88,7 +88,7 @@ with st.sidebar:
                     f"{away_name}  {away_score}"
                 )
                 st.caption(f"Game status: {state}")
-                if state != "OFF" or if state != "FINAL":
+                if state != "OFF" and state != "FINAL":
                     st.caption(f"Time remaining: {timeremaining}")
                 dt = datetime.fromisoformat(
                     utc_starttime.replace("Z", "+00:00")
