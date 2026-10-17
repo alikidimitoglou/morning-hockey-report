@@ -13,7 +13,7 @@ st.set_page_config(
         'About': '''
         Hi! My name's Aliki. I'm a hockey lover and an even bigger data nerd, and I wanted a centralized way to catch up on games I couldn't watch live and news I might've missed.
         
-        So, naturally, I thought, *why not combine just make it myself?* 
+        So, naturally, I thought, *why not combine what I love, and just make the darn thing myself?* 
 
         Now I (and you!) can get an automated email send each morning, plus an up-to-date app with all the hockey info you could ever want.
                 
