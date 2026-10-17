@@ -28,7 +28,7 @@ game_date = st.date_input(
     value=date.today() - timedelta(days=1),
     max_value=date.today(),
     format="MM-DD-YYYY",
-    width=14,
+    width=140,
 )
 
 # team filter #
