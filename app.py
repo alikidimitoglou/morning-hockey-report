@@ -120,7 +120,7 @@ with left:
 with right:
     selected = st.feedback("stars")
     if selected is None:
-        st.markdown("Everybody loves feedback!")
+        st.caption("Everybody loves feedback!")
     elif selected == 5:
         st.success("Thank you for your input!")
     else:
