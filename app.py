@@ -70,6 +70,7 @@ with st.sidebar:
             game_id = game.get("id")
             utc_starttime = game.get("startTimeUTC")
             state = game.get("gameState", "Unknown")
+            timeremaining = game.get("timeRemaining")
     
             away_name = away.get("name", {}).get(
                 "default", away.get("abbrev", "Away")
@@ -87,6 +88,7 @@ with st.sidebar:
                     f"{home_score}  {home_name}"
                 )
                 st.caption(f"Game status: {state}")
+                st.caption(f"Time remaining: {timeremaining}")
                 dt = datetime.fromisoformat(
                     utc_starttime.replace("Z", "+00:00")
                 )
