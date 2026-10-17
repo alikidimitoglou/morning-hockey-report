@@ -27,7 +27,7 @@ game_date = st.date_input(
     "Choose a game date",
     value=date.today() - timedelta(days=1),
     max_value=date.today(),
-    format="MM-DD-YYY",
+    format="MM-DD-YYYY",
     width=14,
 )
 
