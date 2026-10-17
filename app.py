@@ -28,6 +28,14 @@ game_date = st.date_input(
     max_value=date.today(),
 )
 
+# team filter #
+
+teamoptions = st.multiselect(
+    "Choose a team (or two, or three!) to read more about.",
+    ["Penguins", "Avalanche"],
+    filter_mode="contains",
+)
+
 with st.sidebar:
     st.title("Scores:")
     @st.cache_data(ttl=900)
