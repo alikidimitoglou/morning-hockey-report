@@ -20,6 +20,7 @@ game_date = st.date_input(
 )
 
 with st.sidebar:
+    st.title("Yesterday's Game(s)")
     @st.cache_data(ttl=900)
     def get_scores(selected_date):
         url = (
