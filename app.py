@@ -109,7 +109,7 @@ with st.sidebar:
 st.divider()
 
 # little footer note and feedback #
-left, middle = st.columns(2, vertical_alignment="bottom")
+left, right = st.columns(2, vertical_alignment="bottom")
 
 with left:
     st.caption(
@@ -117,7 +117,7 @@ with left:
         "· Powered by NHL data"
     )
 
-with middle:
+with right:
     selected = st.feedback("stars")
 
     if selected is None:
