@@ -5,6 +5,7 @@ from datetime import date, timedelta
 st.set_page_config(
     page_title="Final Whistle",
     page_icon="🥅",
+    initial_sidebar_state="locked",
     layout="centered",
 )
 
