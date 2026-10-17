@@ -125,4 +125,4 @@ with right:
         st.caption("Thank you for your input!")
     else:
         st.caption(
-            "Thank you for your input! Please click **Report a Bug** in the top-right menu to share any comments, concerns, or issues.")
+            "Thank you for your input! Please click *Report a Bug* in the top-right menu to share any comments, concerns, or issues.")
