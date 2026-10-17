@@ -109,7 +109,7 @@ with st.sidebar:
 st.divider()
 
 # little footer note and feedback #
-left, middle, right = st.columns(3, vertical_alignment="bottom")
+left, middle, right = st.columns(3, vertical_alignment="middle")
 
 with left:
     st.caption(
