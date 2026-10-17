@@ -89,21 +89,20 @@ with st.sidebar:
                     )
                 st.caption(f"Game status: {state}")
                 
-                if state != "OFF" and state != "FINAL":
+                if state != "OFF" and state != "FINAL" and state!= "FUT":
                     st.caption(f"Time remaining: {timeremaining}")
-                    dt = datetime.fromisoformat(
-                        utc_starttime.replace("Z", "+00:00")
+                dt = datetime.fromisoformat(
+                    utc_starttime.replace("Z", "+00:00")
                     )
-                    starttime = dt.astimezone(
-                        ZoneInfo("America/New_York")
-                    ).strftime("%-I:%M %p")
-                    st.caption(f"Puck drop **{starttime}** EST")
+                starttime = dt.astimezone(
+                    ZoneInfo("America/New_York")
+                ).strftime("%-I:%M %p")
+                st.caption(f"Puck drop **{starttime}** EST")
         
-                    if game_id:
-                        st.link_button(
-                            "Open NHL game recap ↗",
-                            f"https://www.nhl.com/gamecenter/{game_id}",
-                        )
+                if game_id:
+                    st.link_button(
+                        "Open NHL game recap",
+                        f"https://www.nhl.com/gamecenter/{game_id}",)
     
     except requests.RequestException:
         st.error(
