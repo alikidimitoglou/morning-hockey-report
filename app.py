@@ -36,306 +36,291 @@ teamoptions = st.multiselect(
 )
 
 # my version of inky! #
-
-hockey_egg = r"""
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+hockey_overlay = r"""
+<div id="hockey-easter-egg">
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+  #hockey-easter-egg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    pointer-events: none;
     overflow: hidden;
-    background: transparent;
-}
+  }
 
-#arena {
-    position: relative;
-    width: 100%;
-    height: 650px;
-    overflow: hidden;
-    background: transparent;
-}
-
-.emoji {
+  #hockey-easter-egg .emoji {
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 45px;
+    font-size: 76px;
     line-height: 1;
     cursor: pointer;
     user-select: none;
-    -webkit-user-select: none;
+    pointer-events: auto;
     touch-action: manipulation;
     will-change: transform;
     filter: drop-shadow(0 3px 5px #0002);
-}
+  }
 
-.hockey {
+  #hockey-easter-egg .puck {
     z-index: 3;
-}
+  }
 
-.goal {
+  #hockey-easter-egg .goal {
     z-index: 2;
-    cursor: default;
-}
-
-.confetti {
-    position: absolute;
-    z-index: 5;
     pointer-events: none;
-    font-size: 23px;
+  }
+
+  #hockey-easter-egg .confetti {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 25px;
+    pointer-events: none;
     will-change: transform, opacity;
-    animation: burst 900ms cubic-bezier(.15,.7,.3,1) forwards;
-}
+  }
 
-@keyframes burst {
-    0% {
-        opacity: 1;
-        transform: translate(0,0) scale(1);
+  @media (prefers-reduced-motion: reduce) {
+    #hockey-easter-egg .confetti {
+      opacity: 0.8;
     }
-    100% {
-        opacity: 0;
-        transform: translate(var(--dx),var(--dy))
-                   rotate(360deg) scale(.4);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .confetti {
-        animation-duration: 300ms;
-    }
-}
+  }
 </style>
-</head>
-
-<body>
-<div id="arena"></div>
 
 <script>
 (() => {
-    const arena = document.getElementById("arena");
+  const root = document.getElementById("hockey-easter-egg");
+  if (!root || root.dataset.started) return;
+  root.dataset.started = "1";
 
-    let currentPair = null;
-    let nextTimer = null;
-    let animationFrame = null;
-    let lastTime = 0;
+  let pair = null;
+  let raf = null;
+  let spawnTimer = null;
+  let lastTime = 0;
+  let destroyed = false;
 
-    const rand = (min, max) =>
-        min + Math.random() * (max - min);
+  const rand = (a, b) => a + Math.random() * (b - a);
 
-    function bounds() {
-        return {
-            w: arena.clientWidth,
-            h: arena.clientHeight
-        };
-    }
+  function spawn() {
+    if (destroyed || pair) return;
 
-    function spawnPair() {
-        if (currentPair) return;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const size = 85;
 
-        const {w, h} = bounds();
-        if (w < 100 || h < 100) {
-            nextTimer = setTimeout(spawnPair, 1500);
-            return;
+    const puck = document.createElement("div");
+    puck.className = "emoji puck";
+    puck.textContent = "🏒";
+    puck.title = "Take the shot!";
+    puck.setAttribute("role", "button");
+    puck.setAttribute("tabindex", "0");
+    puck.setAttribute("aria-label", "Shoot for the goal");
+
+    const goal = document.createElement("div");
+    goal.className = "emoji goal";
+    goal.textContent = "🥅";
+    goal.setAttribute("aria-label", "Hockey goal");
+
+    root.append(puck, goal);
+
+    const p = {
+      puck, goal,
+      x: rand(20, Math.max(21, w - size)),
+      y: rand(80, Math.max(81, h - size)),
+      gx: rand(20, Math.max(21, w - size)),
+      gy: rand(80, Math.max(81, h - size)),
+      vx: rand(30, 65) * (Math.random() < .5 ? -1 : 1),
+      vy: rand(20, 50) * (Math.random() < .5 ? -1 : 1),
+      gvx: rand(15, 35) * (Math.random() < .5 ? -1 : 1),
+      gvy: rand(12, 28) * (Math.random() < .5 ? -1 : 1),
+      phase: rand(0, Math.PI * 2),
+      shooting: false,
+      dead: false
+    };
+
+    pair = p;
+
+    function shoot() {
+      if (p.shooting || p.dead) return;
+      p.shooting = true;
+
+      if (raf) cancelAnimationFrame(raf);
+      lastTime = 0;
+
+      const startX = p.x;
+      const startY = p.y;
+      const endX = p.gx;
+      const endY = p.gy;
+      const start = performance.now();
+
+      // A slower, satisfying shot into the net.
+      const duration = 1200;
+
+      function shotFrame(now) {
+        if (p.dead) return;
+
+        const t = Math.min(1, (now - start) / duration);
+        const eased = t * t * (3 - 2 * t);
+
+        p.puck.style.transform =
+          `translate3d(${startX + (endX-startX)*eased}px,
+          ${startY + (endY-startY)*eased}px,0)
+          rotate(${540*eased}deg) scale(${1-.7*eased})`;
+
+        if (t < 1) {
+          raf = requestAnimationFrame(shotFrame);
+        } else {
+          celebrate(endX + 35, endY + 35);
+          removePair();
+          spawnTimer = setTimeout(spawn, rand(4000, 9000));
         }
+      }
 
-        const size = 80;
-        const margin = 12;
+      raf = requestAnimationFrame(shotFrame);
+    }
 
-        const gx = rand(margin, Math.max(margin, w - size));
-        const gy = rand(margin, Math.max(margin, h - size));
+    puck.addEventListener("click", shoot);
+    puck.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        shoot();
+      }
+    });
 
-        let px = rand(margin, Math.max(margin, w - size));
-        let py = rand(margin, Math.max(margin, h - size));
+    lastTime = 0;
+    raf = requestAnimationFrame(move);
+  }
 
-        if (Math.hypot(px - gx, py - gy) < 180) {
-            px = Math.max(margin, Math.min(w - size, gx + 180));
+  function move(now) {
+    if (!pair || pair.dead || pair.shooting || destroyed) return;
+
+    const p = pair;
+    if (!lastTime) lastTime = now;
+
+    // Small time steps prevent jumps after a slow frame.
+    const dt = Math.min((now - lastTime) / 1000, 0.035);
+    lastTime = now;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const size = 90;
+
+    // Both emojis drift continuously and independently.
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.gx += p.gvx * dt;
+    p.gy += p.gvy * dt;
+
+    if (p.x < 0 || p.x > w-size) p.vx *= -1;
+    if (p.y < 45 || p.y > h-size) p.vy *= -1;
+    if (p.gx < 0 || p.gx > w-size) p.gvx *= -1;
+    if (p.gy < 45 || p.gy > h-size) p.gvy *= -1;
+
+    p.x = Math.max(0, Math.min(w-size, p.x));
+    p.y = Math.max(45, Math.min(h-size, p.y));
+    p.gx = Math.max(0, Math.min(w-size, p.gx));
+    p.gy = Math.max(45, Math.min(h-size, p.gy));
+
+    const elapsed = now / 1000;
+    const bob = Math.sin(elapsed * 1.6 + p.phase) * 8;
+    const tilt = Math.sin(elapsed * 1.1 + p.phase) * 8;
+
+    p.puck.style.transform =
+      `translate3d(${p.x}px,${p.y+bob}px,0) rotate(${tilt}deg)`;
+
+    p.goal.style.transform =
+      `translate3d(${p.gx}px,
+      ${p.gy+Math.sin(elapsed*1.2)*5}px,0)
+      rotate(${Math.sin(elapsed*.8)*3}deg)`;
+
+    raf = requestAnimationFrame(move);
+  }
+
+  function celebrate(x, y) {
+    const icons = ["🎉", "✨", "⭐", "🎊", "🏆"];
+
+    // Slower confetti that drifts outward for three seconds.
+    for (let i = 0; i < 24; i++) {
+      const bit = document.createElement("span");
+      bit.className = "confetti";
+      bit.textContent = icons[Math.floor(rand(0, icons.length))];
+
+      root.appendChild(bit);
+
+      const dx = rand(-150, 150);
+      const dy = rand(-160, 100);
+      const spin = rand(-500, 500);
+
+      bit.animate([
+        {
+          opacity: 1,
+          transform: `translate3d(${x}px,${y}px,0) scale(.6)`
+        },
+        {
+          opacity: 1,
+          offset: .55,
+          transform:
+            `translate3d(${x+dx*.65}px,${y+dy*.65}px,0)
+             rotate(${spin*.65}deg) scale(1)`
+        },
+        {
+          opacity: 0,
+          transform:
+            `translate3d(${x+dx}px,${y+dy}px,0)
+             rotate(${spin}deg) scale(.5)`
         }
-
-        const goal = document.createElement("div");
-        goal.className = "emoji goal";
-        goal.textContent = "🥅";
-        goal.setAttribute("aria-label", "Hockey goal");
-
-        const puck = document.createElement("div");
-        puck.className = "emoji hockey";
-        puck.textContent = "🏒";
-        puck.setAttribute("role", "button");
-        puck.setAttribute("tabindex", "0");
-        puck.setAttribute("aria-label", "Shoot the puck into the goal!");
-
-        arena.append(goal, puck);
-
-        // Each emoji follows a continuous, smooth path.
-        // Position and velocity are animated with requestAnimationFrame.
-        const pair = {
-            puck,
-            goal,
-            px, py, gx, gy,
-            pvx: rand(22, 48) * (Math.random() < .5 ? -1 : 1),
-            pvy: rand(18, 42) * (Math.random() < .5 ? -1 : 1),
-            gvx: rand(12, 25) * (Math.random() < .5 ? -1 : 1),
-            gvy: rand(10, 22) * (Math.random() < .5 ? -1 : 1),
-            phase: rand(0, Math.PI * 2),
-            shooting: false,
-            dead: false
-        };
-
-        currentPair = pair;
-
-        function shoot() {
-            if (pair.shooting || pair.dead) return;
-            pair.shooting = true;
-
-            const {w, h} = bounds();
-            const startX = pair.px;
-            const startY = pair.py;
-
-            // Aim at the center of the net.
-            const endX = pair.gx;
-            const endY = pair.gy;
-            const start = performance.now();
-            const duration = 650;
-
-            // Ignore floating while the shot is in progress.
-            function shotFrame(now) {
-                if (pair.dead) return;
-
-                const t = Math.min(1, (now - start) / duration);
-                const eased = 1 - Math.pow(1 - t, 3);
-
-                pair.puck.style.transform =
-                    `translate3d(${
-                      startX + (endX - startX) * eased
-                    }px, ${
-                      startY + (endY - startY) * eased
-                    }px, 0) rotate(${720 * eased}deg) scale(${
-                      1 - eased * .65
-                    })`;
-
-                if (t < 1) {
-                    animationFrame = requestAnimationFrame(shotFrame);
-                } else {
-                    celebrate(endX + 35, endY + 35);
-                    removePair(pair);
-                    scheduleNext();
-                }
-            }
-
-            animationFrame = requestAnimationFrame(shotFrame);
-        }
-
-        puck.addEventListener("click", shoot);
-        puck.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                shoot();
-            }
-        });
-
-        pair.shoot = shoot;
-        pair.startedAt = performance.now();
-
-        if (animationFrame) cancelAnimationFrame(animationFrame);
-        lastTime = 0;
-        animationFrame = requestAnimationFrame(move);
+      ], {
+        duration: rand(2400, 3200),
+        easing: "cubic-bezier(.2,.6,.3,1)",
+        fill: "forwards"
+      }).onfinish = () => bit.remove();
     }
+  }
 
-    function move(now) {
-        const pair = currentPair;
-        if (!pair || pair.dead) return;
+  function removePair() {
+    if (!pair) return;
+    pair.dead = true;
+    pair.puck.remove();
+    pair.goal.remove();
+    pair = null;
+    lastTime = 0;
+  }
 
-        if (pair.shooting) return;
+  function onResize() {
+    if (!pair || pair.dead) return;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    pair.x = Math.min(pair.x, Math.max(0, w-90));
+    pair.gx = Math.min(pair.gx, Math.max(0, w-90));
+    pair.y = Math.min(pair.y, Math.max(45, h-90));
+    pair.gy = Math.min(pair.gy, Math.max(45, h-90));
+  }
 
-        if (!lastTime) lastTime = now;
-        const dt = Math.min((now - lastTime) / 1000, 0.04);
-        lastTime = now;
+  window.addEventListener("resize", onResize);
 
-        const {w, h} = bounds();
-        const size = 82;
+  // First pair appears after two seconds.
+  spawnTimer = setTimeout(spawn, 2000);
 
-        // Constant drifting velocity, with gentle sinusoidal motion.
-        pair.px += pair.pvx * dt;
-        pair.py += pair.pvy * dt;
-        pair.gx += pair.gvx * dt;
-        pair.gy += pair.gvy * dt;
-
-        if (pair.px < 0 || pair.px > w - size) pair.pvx *= -1;
-        if (pair.py < 0 || pair.py > h - size) pair.pvy *= -1;
-        if (pair.gx < 0 || pair.gx > w - size) pair.gvx *= -1;
-        if (pair.gy < 0 || pair.gy > h - size) pair.gvy *= -1;
-
-        pair.px = Math.max(0, Math.min(w - size, pair.px));
-        pair.py = Math.max(0, Math.min(h - size, pair.py));
-        pair.gx = Math.max(0, Math.min(w - size, pair.gx));
-        pair.gy = Math.max(0, Math.min(h - size, pair.gy));
-
-        const elapsed = (now - pair.startedAt) / 1000;
-        const bob = Math.sin(elapsed * 1.7 + pair.phase) * 7;
-        const tilt = Math.sin(elapsed * 1.1 + pair.phase) * 9;
-
-        pair.puck.style.transform =
-            `translate3d(${pair.px}px, ${pair.py + bob}px, 0) rotate(${tilt}deg)`;
-
-        pair.goal.style.transform =
-            `translate3d(${pair.gx}px, ${
-              pair.gy + Math.sin(elapsed * 1.3) * 5
-            }px, 0) rotate(${Math.sin(elapsed) * 4}deg)`;
-
-        animationFrame = requestAnimationFrame(move);
+  // Clean up if this overlay is removed during an app rerun.
+  const observer = new MutationObserver(() => {
+    if (!root.isConnected) {
+      destroyed = true;
+      clearTimeout(spawnTimer);
+      if (raf) cancelAnimationFrame(raf);
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
     }
+  });
 
-    function celebrate(x, y) {
-        const {w, h} = bounds();
-        x = Math.max(0, Math.min(w - 20, x));
-        y = Math.max(0, Math.min(h - 20, y));
-
-        const icons = ["🎉", "✨", "⭐", "🎊", "🏆"];
-
-        for (let i = 0; i < 18; i++) {
-            const bit = document.createElement("span");
-            bit.className = "confetti";
-            bit.textContent = icons[Math.floor(rand(0, icons.length))];
-            bit.style.left = x + "px";
-            bit.style.top = y + "px";
-            bit.style.setProperty("--dx", rand(-100, 100) + "px");
-            bit.style.setProperty("--dy", rand(-100, 80) + "px");
-            arena.appendChild(bit);
-            setTimeout(() => bit.remove(), 1000);
-        }
-    }
-
-    function removePair(pair) {
-        pair.dead = true;
-        pair.puck.remove();
-        pair.goal.remove();
-
-        if (currentPair === pair) currentPair = null;
-        lastTime = 0;
-    }
-
-    function scheduleNext() {
-        clearTimeout(nextTimer);
-        nextTimer = setTimeout(spawnPair, rand(3000, 8000));
-    }
-
-    // Start with a short delay.
-    nextTimer = setTimeout(spawnPair, 2500);
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
 })();
 </script>
-</body>
-</html>
+</div>
 """
-
-components.html(hockey_egg, height=660, scrolling=False)
-
-
-
 
 # sidebar for scores #
 with st.sidebar:
