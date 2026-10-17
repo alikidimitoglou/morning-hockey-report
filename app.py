@@ -79,19 +79,18 @@ with st.sidebar:
                 "default", home.get("abbrev", "Home")
             )
 
-            if state != "FUT":
                 away_score = away.get("score", "—")
                 home_score = home.get("score", "—")
     
-            if state != "FUT":
-                with st.container(border=True):
-                    st.subheader(
-                        f"{home_name}  {home_score} – "
-                        f"{away_name}  {away_score}"
+            with st.container(border=True):
+                st.subheader(
+                    f"{home_name}  {home_score} – "
+                    f"{away_name}  {away_score}"
                     )
-                    st.caption(f"Game status: {state}")
-                    if state != "OFF" and state != "FINAL":
-                        st.caption(f"Time remaining: {timeremaining}")
+                st.caption(f"Game status: {state}")
+                
+                if state != "OFF" and state != "FINAL":
+                    st.caption(f"Time remaining: {timeremaining}")
                     dt = datetime.fromisoformat(
                         utc_starttime.replace("Z", "+00:00")
                     )
