@@ -84,7 +84,7 @@ with st.sidebar:
     
             with st.container(border=True):
                 st.subheader(
-                    f"{home_name}  {home_score} – "
+                    f"{home_name}  {home_score} vs. "
                     f"{away_name}  {away_score}"
                     )
                 st.caption(f"Game status: {state}")
