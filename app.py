@@ -7,6 +7,9 @@ st.set_page_config(
     page_icon="🥅",
     initial_sidebar_state="locked",
     layout="centered",
+    menu_items={
+        'Submit an issue/bug to my GitHub': 'https://github.com/alikidimitoglou/morning-hockey-report/issues'
+        'About': "#Test header."
 )
 
 st.title("The Final Whistle")
@@ -20,7 +23,7 @@ game_date = st.date_input(
 )
 
 with st.sidebar:
-    st.title("Yesterday's Game(s)")
+    st.title("Scores:")
     @st.cache_data(ttl=900)
     def get_scores(selected_date):
         url = (
