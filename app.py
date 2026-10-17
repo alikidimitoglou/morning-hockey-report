@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="locked",
     layout="centered",
     menu_items={
-        'Submit an issue/bug to my GitHub': 'https://github.com/alikidimitoglou/morning-hockey-report/issues',
+        'Report a bug': 'https://github.com/alikidimitoglou/morning-hockey-report/issues',
         'About': "#Test header."
     }
 )
