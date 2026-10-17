@@ -84,27 +84,27 @@ with st.sidebar:
                 home_score = home.get("score", "—")
     
             if state != "FUT":
-            with st.container(border=True):
-                st.subheader(
-                    f"{home_name}  {home_score} – "
-                    f"{away_name}  {away_score}"
-                )
-                st.caption(f"Game status: {state}")
-                if state != "OFF" and state != "FINAL":
-                    st.caption(f"Time remaining: {timeremaining}")
-                dt = datetime.fromisoformat(
-                    utc_starttime.replace("Z", "+00:00")
-                )
-                starttime = dt.astimezone(
-                    ZoneInfo("America/New_York")
-                ).strftime("%-I:%M %p")
-                st.caption(f"Puck drop **{starttime}** EST")
-    
-                if game_id:
-                    st.link_button(
-                        "Open NHL game recap ↗",
-                        f"https://www.nhl.com/gamecenter/{game_id}",
+                with st.container(border=True):
+                    st.subheader(
+                        f"{home_name}  {home_score} – "
+                        f"{away_name}  {away_score}"
                     )
+                    st.caption(f"Game status: {state}")
+                    if state != "OFF" and state != "FINAL":
+                        st.caption(f"Time remaining: {timeremaining}")
+                    dt = datetime.fromisoformat(
+                        utc_starttime.replace("Z", "+00:00")
+                    )
+                    starttime = dt.astimezone(
+                        ZoneInfo("America/New_York")
+                    ).strftime("%-I:%M %p")
+                    st.caption(f"Puck drop **{starttime}** EST")
+        
+                    if game_id:
+                        st.link_button(
+                            "Open NHL game recap ↗",
+                            f"https://www.nhl.com/gamecenter/{game_id}",
+                        )
     
     except requests.RequestException:
         st.error(
