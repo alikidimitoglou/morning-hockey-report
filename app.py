@@ -32,12 +32,12 @@ teamoptions = st.multiselect(
 # sidebar for scores #
 with st.sidebar:
     # date select #
-game_date = st.date_input(
-    "Choose a game date:",
-    value=date.today() - timedelta(days=1),
-    max_value=date.today(),
-    format="MM-DD-YYYY",
-)
+    game_date = st.date_input(
+        "Choose a game date:",
+        value=date.today() - timedelta(days=1),
+        max_value=date.today(),
+        format="MM-DD-YYYY",
+    )
     st.title("Scores:")
     @st.cache_data(ttl=900)
     def get_scores(selected_date):
