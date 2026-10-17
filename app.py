@@ -78,9 +78,9 @@ with st.sidebar:
             home_name = home.get("name", {}).get(
                 "default", home.get("abbrev", "Home")
             )
-
-                away_score = away.get("score", "—")
-                home_score = home.get("score", "—")
+            
+            away_score = away.get("score", "—")
+            home_score = home.get("score", "—")
     
             with st.container(border=True):
                 st.subheader(
