@@ -5,7 +5,7 @@ from datetime import date, timedelta
 st.set_page_config(
     page_title="Final Whistle",
     page_icon="🥅",
-    layout="wide",
+    layout="centered",
 )
 
 st.title("The Final Whistle")
