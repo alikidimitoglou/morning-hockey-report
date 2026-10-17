@@ -9,8 +9,8 @@ st.set_page_config(
     layout="centered",
     menu_items={
         'Report a bug': 'https://github.com/alikidimitoglou/morning-hockey-report/issues',
-        'About': "Hi! My name's Aliki, and I created this app to report on yesterday's NHL games that I couldn't watch live.
-        I wanted an automated email send every morning, like a current-events newsletter, that included stats, highlights, and news.
+        'About': "Hi! My name's Aliki, and I created this app to report on yesterday's NHL games that I couldn't watch live.  
+        I wanted an automated email send every morning, like a current-events newsletter, that included stats, highlights, and news.  
         Thanks for checking out my project! Hope you enjoy."
     }
 )
