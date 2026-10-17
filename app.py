@@ -112,10 +112,8 @@ st.divider()
 left, middle, right = st.columns(3, vertical_alignment="top")
 
 with left:
-    st.caption(
-        "Your daily morning hockey recap + live stats and standings ")
-    st.caption(
-        "· Powered by NHL data")
+    st.caption("Your daily morning hockey recap + live stats and standings")
+    st.caption("· Powered by NHL data")
 
 with right:
     selected = st.feedback("stars")
