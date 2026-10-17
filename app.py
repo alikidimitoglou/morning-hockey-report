@@ -78,6 +78,7 @@ with st.sidebar:
                     f"{home_score}  {home_name}"
                 )
                 st.caption(f"Game status: {state}")
+                st.caption(f"Puck drop (UTC): {startTimeUTC}")
     
                 if game_id:
                     st.link_button(
