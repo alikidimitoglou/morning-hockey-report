@@ -60,6 +60,7 @@ with st.sidebar:
             away = game.get("awayTeam", {})
             home = game.get("homeTeam", {})
             game_id = game.get("id")
+            utc_starttime = game.get("startTimeUTC")
             state = game.get("gameState", "Unknown")
     
             away_name = away.get("name", {}).get(
@@ -78,7 +79,7 @@ with st.sidebar:
                     f"{home_score}  {home_name}"
                 )
                 st.caption(f"Game status: {state}")
-                st.caption(f"Puck drop (UTC): {startTimeUTC}")
+                st.caption(f"Puck drop (UTC): {utc_starttime}")
     
                 if game_id:
                     st.link_button(
