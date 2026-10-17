@@ -119,13 +119,12 @@ with left:
 
 with right:
     selected = st.feedback("stars")
-
     if selected is None:
-        pass
-    elif selected == 4:
+        st.markdown("Everybody loves feedback!")
+    elif selected == 5:
         st.success("Thank you for your input!")
     else:
         st.markdown(
             "Thank you for your input! Please click **Report a Bug** "
-            "in the top-right menu to leave any comments, concerns, "
+            "in the top-right menu to share any comments, concerns, "
             "or issues.")
