@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from datetime import date, timedelta, datetime
 from zoneinfo import ZoneInfo
-import streamlist.components.v1 as components
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Final Whistle",
