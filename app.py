@@ -15,7 +15,7 @@ st.set_page_config(
         
         So, naturally, I thought, *why not combine what I love, and just make the darn thing myself?* 
 
-        Now I (and you!) can get an automated email send each morning, plus an up-to-date app with all the hockey info you could ever want.
+        Now I (and you!) can get an automated email sent out each morning, plus an up-to-date web app with all the hockey info you could ever want.
                 
         Thanks for checking out my project! Hope you enjoy.'''
     }
