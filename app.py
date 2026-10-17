@@ -9,7 +9,8 @@ st.set_page_config(
 )
 
 st.title("The Final Whistle")
-st.caption("*Welcome to the show.* A recap of yesterday's NHL scores and game highlights.")
+st.caption("A recap of yesterday's NHL scores and game highlights.")
+st.markdown(''':gold[Welcome to the show].''')
 
 game_date = st.date_input(
     "Choose a game date",
