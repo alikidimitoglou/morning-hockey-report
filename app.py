@@ -13,13 +13,13 @@ st.set_page_config(
         'About': '''
         Welcome! I'm a hockey lover and an even bigger data nerd, and I wanted a centralized way to catch up on games I couldn't watch live and news I might've missed.
         
-        So, naturally, I thought, *why not combine what I love, and just make the darn thing myself?* 
+        Naturally, I thought, *why not combine what I love, and just make the darn thing myself?* 
 
-        Now I (and you!) can get an automated email sent out each morning, plus an up-to-date web app with all the hockey info you could ever want.
+        So with a bit of determination and a lot of consulting the Streamlit documentation, now I (and you!) have an up-to-date web app with all the hockey info you could ever want, plus an automated email sent out each morning.
                 
         Thanks for checking out my project! Hope you enjoy.
         
-        - Aliki :tulip:'''
+        &mdeah;\ Aliki :tulip:'''
     }
 )
 
