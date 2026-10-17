@@ -104,4 +104,4 @@ with st.sidebar:
         )
 
 st.divider()
-st.caption("Your daily morning hockey recap · Powered by NHL data")
+st.caption("Your daily morning hockey recap + live stats and standings · Powered by NHL data")
