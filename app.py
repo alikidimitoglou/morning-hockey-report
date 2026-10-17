@@ -79,9 +79,9 @@ with st.sidebar:
                 "default", home.get("abbrev", "Home")
             )
 
-        IF state != "FUT":
-            away_score = away.get("score", "—")
-            home_score = home.get("score", "—")
+            IF state != "FUT":
+                away_score = away.get("score", "—")
+                home_score = home.get("score", "—")
     
             with st.container(border=True):
                 st.subheader(
