@@ -22,15 +22,6 @@ st.title("The Final Whistle")
 st.markdown(''':orange[Welcome to the show!]''')
 st.caption("A recap of yesterday's NHL scores and game highlights.")
 
-# date select #
-game_date = st.date_input(
-    "Choose a game date",
-    value=date.today() - timedelta(days=1),
-    max_value=date.today(),
-    format="MM-DD-YYYY",
-    width=140,
-)
-
 # team filter #
 teamoptions = st.multiselect(
     "Choose a team (or two, or three!) to read more about.",
@@ -40,6 +31,13 @@ teamoptions = st.multiselect(
 
 # sidebar for scores #
 with st.sidebar:
+    # date select #
+game_date = st.date_input(
+    "Choose a game date:",
+    value=date.today() - timedelta(days=1),
+    max_value=date.today(),
+    format="MM-DD-YYYY",
+)
     st.title("Scores:")
     @st.cache_data(ttl=900)
     def get_scores(selected_date):
