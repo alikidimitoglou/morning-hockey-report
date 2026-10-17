@@ -19,7 +19,7 @@ st.set_page_config(
                 
         Thanks for checking out my project! Hope you enjoy.
         
-        &mdash;\ Aliki :four_leaf_clover:'''
+        &mdash; Aliki :four_leaf_clover:'''
     }
 )
 
