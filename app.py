@@ -70,10 +70,6 @@ with st.sidebar:
             game_id = game.get("id")
             utc_starttime = game.get("startTimeUTC")
             state = game.get("gameState", "Unknown")
-            if state in ("OFF", "FINAL"):
-                st.caption("Game status: Final")
-            else:
-                st.caption(f"Game status: {state}")
             timeremaining = game.get("timeRemaining")
     
             away_name = away.get("name", {}).get(
@@ -93,6 +89,10 @@ with st.sidebar:
                     )
                 st.caption(f"Game status: {state}")
                 
+                if state in ("OFF", "FINAL"):
+                    st.caption("Game status: Final")
+                else:
+                    st.caption(f"Game status: {state}")
                 if state != "OFF" and state != "FINAL" and state!= "FUT":
                     st.caption(f"Time remaining: {timeremaining}")
                 dt = datetime.fromisoformat(
